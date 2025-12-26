@@ -17,7 +17,7 @@ function TranscriptView({ messages }: { messages: ChatMessage[] }) {
 				<div className="transcript-empty">Begin a conversation and watch it unfold here.</div>
 			) : (
 				messages.map((msg, idx) => (
-					<div key={idx} className="transcript-entry">
+					<div key={idx} className="transcript-entry group">
 						<span className={`transcript-speaker ${msg.role}`}>{msg.role === "user" ? "You" : msg.name || "Echo Guide"}</span>
 						<p className={`transcript-text ${msg.role}`}>{msg.text}</p>
 					</div>

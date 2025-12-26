@@ -67,15 +67,23 @@ body {
 }
 
 .transcript-speaker {
-  @apply text-[9px] font-black uppercase tracking-widest mt-1.5 shrink-0 w-24 text-right;
+  @apply text-[9px] font-black uppercase tracking-widest mt-1.5 shrink-0 w-24 text-right transition-colors duration-200;
 }
 
 .transcript-speaker.user {
   @apply text-zinc-500;
 }
 
+.transcript-entry:hover .transcript-speaker.user {
+  @apply text-zinc-300;
+}
+
 .transcript-speaker.model {
   @apply text-amber-600;
+}
+
+.transcript-entry:hover .transcript-speaker.model {
+  @apply text-amber-400;
 }
 
 .transcript-text {
@@ -101,8 +109,4 @@ body {
     transform: translateY(0);
     opacity: 1;
   }
-}
-
-.animate-slide-in-bottom {
-  animation: slide-in-bottom 0.5s ease forwards;
 }
