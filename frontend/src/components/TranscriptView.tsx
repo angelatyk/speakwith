@@ -1,11 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { ChatMessage } from "../types";
 
-interface TranscriptViewProps {
-	messages: ChatMessage[];
-}
-
-export const TranscriptView: React.FC<TranscriptViewProps> = ({ messages }) => {
+function TranscriptView({ messages }: { messages: ChatMessage[] }) {
 	const scrollRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -22,11 +18,13 @@ export const TranscriptView: React.FC<TranscriptViewProps> = ({ messages }) => {
 			) : (
 				messages.map((msg, idx) => (
 					<div key={idx} className="transcript-entry">
-						<span className={`transcript-speaker ${msg.role}`}>{msg.name || (msg.role === "user" ? "You" : msg.name || "Echo Guide")}</span>
+						<span className={`transcript-speaker ${msg.role}`}>{msg.role === "user" ? "You" : msg.name || "Echo Guide"}</span>
 						<p className={`transcript-text ${msg.role}`}>{msg.text}</p>
 					</div>
 				))
 			)}
 		</div>
 	);
-};
+}
+
+export default TranscriptView;

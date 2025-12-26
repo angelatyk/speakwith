@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { TranscriptView } from "./components/TranscriptView";
-import type { ChatMessage } from "./types";
+import TranscriptHeader from "./components/TranscriptHeader";
+import TranscriptView from "./components/TranscriptView";
+import type { ChatMessage, HistoricalFigure } from "./types";
 
 function App() {
 	// Mock chat messages
@@ -12,7 +13,6 @@ function App() {
 		},
 		{
 			role: "user",
-			name: "You",
 			text: "I want to talk to Albert Einstein.",
 			timestamp: Date.now(),
 		},
@@ -24,11 +24,14 @@ function App() {
 		},
 	]);
 
+	const [isSessionActive, setIsSessionActive] = useState(false);
+	const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure | null>(null);
+
 	return (
 		<div className="app-container">
-			<header className="app-header">Echoes: Journal</header>
 			<main className="app-main">
 				<div className="app-stage">
+					<TranscriptHeader isSessionActive={isSessionActive} selectedFigure={selectedFigure} />
 					<TranscriptView messages={messages} />
 				</div>
 			</main>

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Global */
 html,
 body,
 #root {
@@ -10,115 +11,86 @@ body {
   background-color: #0a0a0a;
   color: #ffffff;
   font-family: Inter, system-ui, sans-serif;
-}
-
-body {
   -webkit-font-smoothing: antialiased;
 }
 
 /* App shell */
 .app-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  @apply h-full flex flex-col overflow-hidden;
 }
 
-/* Header */
-.app-header {
-  padding: 1rem 1.5rem;
-  font-size: 0.625rem;
-  font-weight: 800;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgb(245 158 11 / 0.6);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Main area */
 .app-main {
-  flex: 1;
-  padding: 1.5rem;
-  background: linear-gradient(to top,
-      #000000,
-      #18181b,
-      transparent);
+  @apply flex-1 p-6 bg-gradient-to-t from-black via-zinc-900 to-transparent;
 }
 
 .app-stage {
-  height: 100%;
-  max-width: 48rem;
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
+  @apply h-full max-w-4xl mx-auto flex flex-col;
 }
 
-/* TranscriptView */
+/* Transcript Header */
+.transcript-header {
+  @apply flex items-center justify-between mb-4 px-2;
+}
+
+.transcript-title {
+  @apply text-[10px] font-black uppercase tracking-[0.5em] text-amber-500/60;
+}
+
+.transcript-status {
+  @apply flex items-center gap-2;
+}
+
+.status-dot {
+  @apply w-2 h-2 rounded-full bg-zinc-700;
+}
+
+.status-dot.active {
+  @apply bg-amber-500 animate-pulse;
+}
+
+.status-text {
+  @apply text-[10px] text-zinc-500 font-bold uppercase;
+}
+
+/* Transcript View */
 .transcript-container {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  scroll-behavior: smooth;
+  @apply h-full overflow-y-auto pr-4 flex flex-col gap-4 scroll-smooth;
 }
 
 .transcript-empty {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.2;
-  font-style: italic;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
+  @apply flex-1 flex items-center justify-center opacity-20 italic text-sm tracking-widest uppercase;
 }
 
 .transcript-entry {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
+  @apply flex gap-4 items-start;
   animation: slide-in-bottom 0.5s ease forwards;
 }
 
 .transcript-speaker {
-  font-size: 0.625rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  width: 5.5rem;
-  text-align: right;
-  margin-top: 0.25rem;
+  @apply text-[9px] font-black uppercase tracking-widest mt-1.5 shrink-0 w-24 text-right;
 }
 
 .transcript-speaker.user {
-  color: #a1a1aa;
+  @apply text-zinc-500;
 }
 
 .transcript-speaker.model {
-  color: #fbbf24;
+  @apply text-amber-600;
 }
 
 .transcript-text {
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  max-width: 80%;
+  @apply text-sm leading-relaxed;
 }
 
 .transcript-text.user {
-  color: #d4d4d8;
-  font-weight: 500;
+  @apply text-zinc-400 font-medium;
 }
 
 .transcript-text.model {
-  color: #f5f5f5;
-  font-weight: 700;
+  @apply text-zinc-100 font-bold;
 }
 
-/* Slide in from bottom animation */
+/* Animations */
 @keyframes slide-in-bottom {
   0% {
     transform: translateY(1rem);
@@ -129,4 +101,8 @@ body {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.5s ease forwards;
 }
