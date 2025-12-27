@@ -4,7 +4,7 @@
   /* Core Colors */
   --bg-main: #0a0a0a;
   --text-primary: #ffffff;
-  --text-muted: #71717a;
+  --text-muted: #a1a1aa;
 
   /* Accent Colors (Amber/Gold) */
   --accent: #f59e0b;
@@ -60,7 +60,7 @@ body {
 }
 
 .app-subtitle {
-  @apply mt-2 text-[12px] uppercase tracking-[0.35em] text-zinc-500;
+  @apply mt-2 text-[12px] uppercase tracking-[0.35em] text-zinc-400;
 }
 
 /* Disc Zone */
@@ -87,11 +87,11 @@ body {
 }
 
 .category-item:not(.active) {
-  @apply opacity-40 hover:opacity-80;
+  @apply opacity-60 hover:opacity-100;
 }
 
 .category-label {
-  @apply text-[12px] font-black uppercase tracking-[0.2em] transition-colors whitespace-nowrap text-zinc-500;
+  @apply text-[12px] font-black uppercase tracking-[0.2em] transition-colors whitespace-nowrap text-zinc-400;
 }
 
 .category-item.active .category-label {
@@ -99,11 +99,11 @@ body {
 }
 
 .category-item:hover .category-label {
-  @apply text-zinc-300;
+  @apply text-zinc-200;
 }
 
 .category-indicator {
-  @apply h-8 w-1 rounded-full transition-all duration-500 bg-zinc-800 scale-y-50;
+  @apply h-8 w-1 rounded-full transition-all duration-500 bg-zinc-700 scale-y-50;
 }
 
 .category-item.active .category-indicator {
@@ -125,11 +125,11 @@ body {
 }
 
 .figure-item:not(.active) {
-  @apply opacity-30 hover:opacity-100;
+  @apply opacity-50 hover:opacity-100;
 }
 
 .figure-indicator {
-  @apply h-[2px] transition-all duration-500 bg-zinc-700 w-4;
+  @apply h-[2px] transition-all duration-500 bg-zinc-600 w-4;
 }
 
 .figure-item.active .figure-indicator {
@@ -137,7 +137,7 @@ body {
 }
 
 .figure-card {
-  @apply px-5 py-2 rounded-full font-bold uppercase tracking-widest text-[12px] transition-all border whitespace-nowrap bg-black/50 text-zinc-400 border-zinc-800;
+  @apply px-5 py-2 rounded-full font-bold uppercase tracking-widest text-[12px] transition-all border whitespace-nowrap bg-black/50 text-zinc-300 border-zinc-700;
 }
 
 .figure-item.active .figure-card {
@@ -225,7 +225,7 @@ body {
 
 /* Status Text */
 .disc-status-text {
-  @apply text-[12px] font-black uppercase tracking-[0.3em] transition-all duration-700 text-center;
+  @apply text-[14px] font-black uppercase tracking-[0.4em] transition-all duration-700 text-center;
 }
 
 .disc-status-text.active {
@@ -233,7 +233,7 @@ body {
 }
 
 .disc-status-text.inactive {
-  @apply text-white opacity-60;
+  @apply text-white opacity-80;
   animation: pulse-slow 3s ease-in-out infinite;
 }
 
@@ -244,11 +244,15 @@ body {
 
 /* Transcript Header */
 .transcript-header {
-  @apply flex items-center justify-between mb-4 px-2;
+  @apply flex items-center justify-between mb-6 px-2;
 }
 
-.transcript-title {
-  @apply text-[12px] font-black uppercase tracking-[0.5em] text-amber-500/60;
+h3.transcript-title {
+  font-size: 16px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  color: var(--accent) !important;
+  @apply font-black uppercase tracking-[0.4em];
 }
 
 .transcript-status {
