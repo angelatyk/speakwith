@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import DiscSystem from "./components/DiscSystem";
+import TranscriptHeader from "./components/TranscriptHeader";
+import TranscriptView from "./components/TranscriptView";
+import { ECHOES_GUIDE } from "./data/historicalFigures";
+import type { ChatMessage, HistoricalFigure } from "./types";
 
 function App() {
-  const [count, setCount] = useState(0)
+	// Mock chat messages
+	const [messages, setMessages] = useState<ChatMessage[]>(() => [
+		{
+			role: "model",
+			text: "Greetings, traveler. Who would you like to speak with today?",
+			timestamp: Date.now(),
+		},
+		{
+			role: "user",
+			text: "I want to talk to Albert Einstein.",
+			timestamp: Date.now(),
+		},
+		{
+			role: "model",
+			name: "Albert Einstein",
+			text: "Ah, relativity! Let us explore the universe together.",
+			timestamp: Date.now(),
+		},
+	]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const [isSessionActive, setIsSessionActive] = useState(false);
+	const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure>(ECHOES_GUIDE);
+
+	const handleSelectFigure = (figure: HistoricalFigure) => {
+		setSelectedFigure(figure);
+	};
+
+	const handleToggleSession = () => {
+		setIsSessionActive((prev) => !prev);
+	};
+
+	return (
+		<div className="app-container">
+			<main className="app-main">
+				<div className="app-stage">
+					<header className="app-header">
+						<h1 className="app-title">Echoes</h1>
+						<p className="app-subtitle">Learn history through conversation with those who shaped it</p>
+					</header>
+
+					{/* Disc */}
+					<div className="disc-zone">
+						<DiscSystem isActive={isSessionActive} onToggleSession={handleToggleSession} onSelectFigure={handleSelectFigure} activeFigure={selectedFigure} />
+					</div>
+
+					{/* Transcript */}
+					<div className="transcript-zone">
+						<TranscriptHeader isSessionActive={isSessionActive} selectedFigure={selectedFigure} />
+						<TranscriptView messages={messages} />
+					</div>
+				</div>
+			</main>
+		</div>
+	);
 }
 
-export default App
+export default App;
