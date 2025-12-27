@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CoreDisc from "./components/CoreDisc";
 import TranscriptHeader from "./components/TranscriptHeader";
 import TranscriptView from "./components/TranscriptView";
 import type { ChatMessage, HistoricalFigure } from "./types";
@@ -27,12 +28,24 @@ function App() {
 	const [isSessionActive, setIsSessionActive] = useState(false);
 	const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure | null>(null);
 
+	const handleToggleSession = () => {
+		setIsSessionActive((prev) => !prev);
+	};
+
 	return (
 		<div className="app-container">
 			<main className="app-main">
 				<div className="app-stage">
-					<TranscriptHeader isSessionActive={isSessionActive} selectedFigure={selectedFigure} />
-					<TranscriptView messages={messages} />
+					{/* Disc */}
+					<div className="disc-zone">
+						<CoreDisc isActive={isSessionActive} onToggleSession={handleToggleSession} avatarUrl={selectedFigure?.avatarUrl} figureName={selectedFigure?.name} />
+					</div>
+
+					{/* Transcript */}
+					<div className="transcript-zone">
+						<TranscriptHeader isSessionActive={isSessionActive} selectedFigure={selectedFigure} />
+						<TranscriptView messages={messages} />
+					</div>
 				</div>
 			</main>
 		</div>

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Global */
+/*  Global & Layout  */
 html,
 body,
 #root {
@@ -14,7 +14,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* App shell */
 .app-container {
   @apply h-full flex flex-col overflow-hidden;
 }
@@ -25,6 +24,95 @@ body {
 
 .app-stage {
   @apply h-full max-w-4xl mx-auto flex flex-col;
+}
+
+/*  Disc Zone  */
+.disc-zone {
+  @apply relative flex items-center justify-center min-h-[50vh];
+}
+
+/*  Core Disc Semantic Components  */
+.core-disc-wrapper {
+  @apply relative w-80 h-80 flex items-center justify-center;
+}
+
+/* Rotating Light Ring */
+.signal-ring {
+  @apply absolute inset-0 w-full h-full pointer-events-none z-20 transition-opacity duration-1000;
+  stroke-dasharray: 70 230;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 12px rgba(245, 158, 11, 0.4));
+}
+
+.disc-glow {
+  @apply absolute inset-0 bg-amber-500/30 rounded-full opacity-10 transition-opacity duration-1000;
+  filter: blur(80px);
+}
+
+.disc-glow.active {
+  @apply opacity-100 animate-pulse;
+}
+
+.disc-metallic {
+  @apply relative w-full h-full rounded-full border-[12px] transition-all duration-700 flex items-center justify-center overflow-hidden;
+  border-color: #222;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 1);
+}
+
+.disc-metallic.active {
+  @apply border-amber-500 scale-105;
+  box-shadow: 0 0 120px rgba(245, 158, 11, 0.4);
+}
+
+/* Brushed Metal Texture */
+.disc-surface {
+  @apply absolute inset-0 opacity-20 transition-all duration-1000;
+  background: conic-gradient(from 0deg,
+      #111 0%,
+      #d4af37 20%,
+      #111 40%,
+      #f9d976 60%,
+      #111 80%,
+      #d4af37 100%);
+}
+
+.disc-surface.active {
+  @apply opacity-90;
+  animation: spin-slow 20s linear infinite;
+}
+
+.disc-center {
+  @apply absolute inset-0 z-10 flex items-center justify-center bg-black/40;
+}
+
+.disc-avatar {
+  @apply w-full h-full object-cover opacity-30 transition-all duration-500;
+}
+
+.disc-avatar.active {
+  @apply opacity-80 scale-110 grayscale-0;
+}
+
+.disc-placeholder {
+  @apply flex flex-col items-center justify-center;
+}
+
+.disc-placeholder-text {
+  @apply text-[10px] text-zinc-500 font-bold uppercase tracking-widest text-center;
+}
+
+/* Power Button Overlay */
+.disc-power-btn {
+  @apply absolute z-30 w-16 h-16 rounded-full flex items-center justify-center bg-black border-4 border-zinc-800 transition-all duration-300 hover:border-amber-500 hover:scale-110 active:scale-95 cursor-pointer;
+}
+
+.disc-power-btn.active {
+  @apply border-amber-500 bg-amber-500/10;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+/*  Transcript Zone  */
+.transcript-zone {
+  @apply flex-1 flex flex-col overflow-hidden;
 }
 
 /* Transcript Header */
@@ -54,7 +142,7 @@ body {
 
 /* Transcript View */
 .transcript-container {
-  @apply h-full overflow-y-auto pr-4 flex flex-col gap-4 scroll-smooth;
+  @apply flex-1 overflow-y-auto pr-4 flex flex-col gap-4 scroll-smooth;
 }
 
 .transcript-empty {
@@ -109,4 +197,24 @@ body {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rotating Ring Animation */
+.animate-revolve-slow {
+  animation: spin-slow 15s linear infinite;
+}
+
+svg circle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
 }
