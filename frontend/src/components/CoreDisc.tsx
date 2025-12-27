@@ -5,47 +5,55 @@ type CoreDiscProps = {
 	onToggleSession: () => void;
 	avatarUrl?: string;
 	figureName?: string;
+	isModelSpeaking?: boolean;
+	isUserSpeaking?: boolean;
 };
 
-export default function CoreDisc({ isActive, onToggleSession, avatarUrl, figureName }: CoreDiscProps) {
+export default function CoreDisc({ isActive, onToggleSession, avatarUrl, figureName, isModelSpeaking, isUserSpeaking }: CoreDiscProps) {
+	const getStatusText = () => {
+		if (!isActive) return "Tap the disc to begin";
+		if (isModelSpeaking) return figureName || "Echo Guide";
+		if (isUserSpeaking) return "Listening...";
+		return "Standing by";
+	};
+
 	return (
-		<div className="core-disc-wrapper">
-			{/* 🔶 High-Intensity Rotating Signal Ring */}
-			<svg className={`signal-ring transition-opacity duration-1000 ${isActive ? "opacity-100" : "opacity-0"}`} viewBox="0 0 100 100">
-				<defs>
-					<linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-						{/* Adding a white stop at the start makes the "head" of the line glow much brighter */}
-						<stop offset="0%" stopColor="#fff" stopOpacity="1" />
-						<stop offset="20%" stopColor="var(--color-amber-500)" stopOpacity="1" />
-						<stop offset="100%" stopColor="var(--color-amber-500)" stopOpacity="0" />
-					</linearGradient>
-				</defs>
-				<circle cx="50" cy="50" r="48.5" fill="none" stroke="url(#ringGradient)" strokeWidth="1.5" strokeLinecap="round" className="animate-revolve-slow" />
-			</svg>
+		<div className="flex flex-col items-center">
+			<div className="core-disc-wrapper">
+				{/* Rotating Signal Ring */}
+				<svg className={`signal-ring transition-opacity duration-1000 ${isActive ? "opacity-100" : "opacity-0"}`} viewBox="0 0 100 100">
+					<defs>
+						<linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+							<stop offset="0%" stopColor="#fff" stopOpacity="1" />
+							<stop offset="20%" stopColor="var(--color-amber-500)" stopOpacity="1" />
+							<stop offset="100%" stopColor="var(--color-amber-500)" stopOpacity="0" />
+						</linearGradient>
+					</defs>
+					<circle cx="50" cy="50" r="48.5" fill="none" stroke="url(#ringGradient)" strokeWidth="1.5" strokeLinecap="round" className="animate-revolve-slow" />
+				</svg>
 
-			{/* 🔶 Soft glow behind disc */}
-			<div className={`disc-glow ${isActive ? "active" : ""}`} />
+				<div className={`disc-glow ${isActive ? "active" : ""}`} />
 
-			{/* 🔘 Main Metallic Disc */}
-			<div className={`disc-metallic ${isActive ? "active" : ""}`}>
-				{/* 1. Brushed Metal Texture Layer */}
-				<div className={`disc-surface ${isActive ? "active" : ""}`} />
+				<div className={`disc-metallic ${isActive ? "active" : ""}`}>
+					<div className={`disc-surface ${isActive ? "active" : ""}`} />
 
-				{/* 2. Content Center Layer */}
-				<div className="disc-center">
-					{avatarUrl ? (
-						<img src={avatarUrl} alt={figureName} className={`disc-avatar ${isActive ? "active" : "grayscale opacity-30"}`} />
-					) : (
-						<div className="disc-placeholder">
-							<div className="disc-placeholder-text">{isActive ? "Communion" : "Echo Guide"}</div>
-						</div>
-					)}
+					<div className="disc-center">{avatarUrl && <img src={avatarUrl} alt={figureName} className={`disc-avatar ${isActive ? "active" : "grayscale opacity-30"}`} />}</div>
+
+					<button className={`disc-power-btn ${isActive ? "active" : ""}`} onClick={onToggleSession} aria-label="Toggle session">
+						{isActive ? <X size={24} className="text-white" /> : <Power size={22} className="text-zinc-600" />}
+					</button>
 				</div>
+			</div>
 
-				{/* 3. Central Power Button Overlay */}
-				<button className={`disc-power-btn ${isActive ? "active" : ""}`} onClick={onToggleSession} aria-label="Toggle session">
-					{isActive ? <X size={24} className="text-white" /> : <Power size={22} className="text-zinc-600" />}
-				</button>
+			<div className="mt-8 text-center h-8 flex items-center justify-center">
+				<span
+					className={`
+                    text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700
+                    ${isActive ? "text-amber-500 opacity-100" : "text-white opacity-60 animate-pulse-slow"}
+                `}
+				>
+					{getStatusText()}
+				</span>
 			</div>
 		</div>
 	);
