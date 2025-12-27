@@ -31,22 +31,20 @@ function CoreDisc({ isActive, onToggleSession, avatarUrl, figureName, isModelSpe
 					</defs>
 					<circle cx="50" cy="50" r="48.5" fill="none" stroke="url(#ringGradient)" strokeWidth="1.5" strokeLinecap="round" className="animate-revolve-slow" />
 				</svg>
-
+				{/* Disc Glow */}
 				<div className={`disc-glow ${isActive ? "active" : ""}`} />
-
+				{/* Disc Content */}
 				<div className={`disc-metallic ${isActive ? "active" : ""}`}>
 					<div className={`disc-surface ${isActive ? "active" : ""}`} />
-
 					<div className="disc-center">{avatarUrl && <img src={avatarUrl} alt={figureName} className={`disc-avatar ${isActive ? "active" : "grayscale opacity-30"}`} />}</div>
-
 					<button className={`disc-power-btn ${isActive ? "active" : ""}`} onClick={onToggleSession} aria-label="Toggle session">
 						{isActive ? <X size={24} className="text-white" /> : <Power size={22} className="text-zinc-600" />}
 					</button>
 				</div>
 			</div>
-
+			{/* Status Text */}
 			<div className="mt-8 h-8 flex items-center justify-center">
-				<span className={`disc-status ${isActive ? "active" : "inactive"}`}>{getStatusText()}</span>
+				<span className={`disc-status-text ${isActive ? "active" : "inactive"}`}>{getStatusText()}</span>
 			</div>
 		</div>
 	);

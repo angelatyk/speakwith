@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/*  Global & Layout  */
+/* Global & Layout */
 html,
 body,
 #root {
@@ -26,17 +26,17 @@ body {
   @apply h-full max-w-4xl mx-auto flex flex-col;
 }
 
-/*  Disc Zone  */
+/* Disc Zone */
 .disc-zone {
   @apply relative flex items-center justify-center min-h-[50vh];
 }
 
-/*  Core Disc Semantic Components  */
+/* Core Disc */
 .core-disc-wrapper {
   @apply relative w-80 h-80 flex items-center justify-center;
 }
 
-/* Rotating Light Ring */
+/* Rotating Signal Ring */
 .signal-ring {
   @apply absolute inset-0 w-full h-full pointer-events-none z-20 transition-opacity duration-1000 opacity-0;
   stroke-dasharray: 70 230;
@@ -86,7 +86,7 @@ body {
   animation: spin-slow 20s linear infinite;
 }
 
-/* Disc Center */
+/* Disc Content */
 .disc-center {
   @apply absolute inset-0 z-10 flex items-center justify-center bg-black/40;
 }
@@ -109,21 +109,85 @@ body {
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
 }
 
-/* Disc Status Text */
-.disc-status {
+/* Status Text */
+.disc-status-text {
   @apply text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700 text-center;
 }
 
-.disc-status.active {
+.disc-status-text.active {
   @apply text-amber-500 opacity-100;
 }
 
-.disc-status.inactive {
+.disc-status-text.inactive {
   @apply text-white opacity-60;
   animation: pulse-slow 3s ease-in-out infinite;
 }
 
-/*  Transcript Zone  */
+/* Left Menu: Categories */
+.category-item {
+  @apply flex items-center gap-4 transition-all duration-500 cursor-pointer;
+}
+
+.category-item.active {
+  @apply translate-x-4;
+}
+
+.category-item:not(.active) {
+  @apply opacity-40 hover:opacity-80;
+}
+
+.category-label {
+  @apply text-[10px] font-black uppercase tracking-[0.2em] transition-colors whitespace-nowrap text-zinc-500;
+}
+
+.category-item.active .category-label {
+  @apply text-white;
+}
+
+.category-item:hover .category-label {
+  @apply text-zinc-300;
+}
+
+.category-indicator {
+  @apply h-8 w-1 rounded-full transition-all duration-500 bg-zinc-800 scale-y-50;
+}
+
+.category-item.active .category-indicator {
+  @apply bg-amber-500 scale-y-100;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+}
+
+/* Right Menu: Historical Figures */
+.figure-item {
+  @apply flex items-center gap-4 py-1 transition-all duration-300 cursor-pointer w-full;
+}
+
+.figure-item.active {
+  @apply -translate-x-4;
+}
+
+.figure-item:not(.active) {
+  @apply opacity-30 hover:opacity-100;
+}
+
+.figure-indicator {
+  @apply h-[2px] transition-all duration-500 bg-zinc-700 w-4;
+}
+
+.figure-item.active .figure-indicator {
+  @apply bg-amber-500 w-12;
+}
+
+.figure-card {
+  @apply px-5 py-2 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all border whitespace-nowrap bg-black/50 text-zinc-400 border-zinc-800;
+}
+
+.figure-item.active .figure-card {
+  @apply bg-white text-black border-white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Transcript Zone */
 .transcript-zone {
   @apply flex-1 flex flex-col overflow-hidden;
 }
@@ -199,6 +263,20 @@ body {
   @apply text-zinc-100 font-bold;
 }
 
+/* Scrollbar Customization */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.2);
+  border-radius: 10px;
+}
+
 /* Animations */
 @keyframes slide-in-bottom {
   0% {
@@ -227,16 +305,8 @@ body {
   animation: spin-slow 15s linear infinite;
 }
 
-svg circle {
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-}
-
-/* Status Text Pulse */
 @keyframes pulse-slow {
-
-  0%,
-  100% {
+  0%, 100% {
     opacity: 0.3;
     transform: scale(0.98);
   }
@@ -247,6 +317,7 @@ svg circle {
   }
 }
 
-.animate-pulse-slow {
-  animation: pulse-slow 3s ease-in-out infinite;
+svg circle {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
 }

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import CoreDisc from "./components/CoreDisc";
+import DiscSystem from "./components/DiscSystem";
 import TranscriptHeader from "./components/TranscriptHeader";
 import TranscriptView from "./components/TranscriptView";
+import { ECHOES_GUIDE } from "./data/historicalFigures";
 import type { ChatMessage, HistoricalFigure } from "./types";
 
 function App() {
@@ -26,7 +27,11 @@ function App() {
 	]);
 
 	const [isSessionActive, setIsSessionActive] = useState(false);
-	const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure | null>(null);
+	const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure>(ECHOES_GUIDE);
+
+	const handleSelectFigure = (figure: HistoricalFigure) => {
+		setSelectedFigure(figure);
+	};
 
 	const handleToggleSession = () => {
 		setIsSessionActive((prev) => !prev);
@@ -38,7 +43,7 @@ function App() {
 				<div className="app-stage">
 					{/* Disc */}
 					<div className="disc-zone">
-						<CoreDisc isActive={isSessionActive} onToggleSession={handleToggleSession} avatarUrl={selectedFigure?.avatarUrl} figureName={selectedFigure?.name} />
+						<DiscSystem isActive={isSessionActive} onToggleSession={handleToggleSession} onSelectFigure={handleSelectFigure} activeFigure={selectedFigure} />
 					</div>
 
 					{/* Transcript */}

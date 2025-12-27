@@ -1,8 +1,8 @@
 import type { HistoricalFigure } from "../types";
 
-export const CHRONOS_GUIDE: HistoricalFigure = {
+export const ECHOES_GUIDE: HistoricalFigure = {
 	id: "guide",
-	name: "Chronos Guide",
+	name: "Echoes Guide",
 	category: "The Archive",
 	description: "The automated custodian of historical records.",
 	avatarUrl: "",
