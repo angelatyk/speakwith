@@ -7,11 +7,8 @@
   --text-muted: #71717a;
 
   /* Accent Colors (Amber/Gold) */
-  /* amber-500 */
   --accent: #f59e0b;
-  /* Metallic Gold */
   --accent-dark: #d4af37;
-  /* Bright Gold */
   --accent-light: #f9d976;
 
   --accent-glow: rgba(245, 158, 11, 0.4);
@@ -94,7 +91,7 @@ body {
 }
 
 .category-label {
-  @apply text-[10px] font-black uppercase tracking-[0.2em] transition-colors whitespace-nowrap text-zinc-500;
+  @apply text-[12px] font-black uppercase tracking-[0.2em] transition-colors whitespace-nowrap text-zinc-500;
 }
 
 .category-item.active .category-label {
@@ -140,7 +137,7 @@ body {
 }
 
 .figure-card {
-  @apply px-5 py-2 rounded-full font-bold uppercase tracking-widest text-[11px] transition-all border whitespace-nowrap bg-black/50 text-zinc-400 border-zinc-800;
+  @apply px-5 py-2 rounded-full font-bold uppercase tracking-widest text-[12px] transition-all border whitespace-nowrap bg-black/50 text-zinc-400 border-zinc-800;
 }
 
 .figure-item.active .figure-card {
@@ -228,7 +225,7 @@ body {
 
 /* Status Text */
 .disc-status-text {
-  @apply text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700 text-center;
+  @apply text-[12px] font-black uppercase tracking-[0.3em] transition-all duration-700 text-center;
 }
 
 .disc-status-text.active {
@@ -251,7 +248,7 @@ body {
 }
 
 .transcript-title {
-  @apply text-[10px] font-black uppercase tracking-[0.5em] text-amber-500/60;
+  @apply text-[12px] font-black uppercase tracking-[0.5em] text-amber-500/60;
 }
 
 .transcript-status {
@@ -267,7 +264,7 @@ body {
 }
 
 .status-text {
-  @apply text-[10px] text-zinc-500 font-bold uppercase;
+  @apply text-[12px] text-zinc-500 font-bold uppercase;
 }
 
 /* Transcript View */
@@ -285,7 +282,7 @@ body {
 }
 
 .transcript-speaker {
-  @apply text-[9px] font-black uppercase tracking-widest mt-1.5 shrink-0 w-24 text-right transition-colors duration-200;
+  @apply text-[12px] font-black uppercase tracking-widest mt-1.5 shrink-0 w-28 text-right transition-colors duration-200;
 }
 
 .transcript-speaker.user {
@@ -305,7 +302,7 @@ body {
 }
 
 .transcript-text {
-  @apply text-sm leading-relaxed;
+  @apply text-[14px] leading-relaxed;
 }
 
 .transcript-text.user {
