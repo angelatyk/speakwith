@@ -21,7 +21,7 @@ export default function CoreDisc({ isActive, onToggleSession, avatarUrl, figureN
 		<div className="flex flex-col items-center">
 			<div className="core-disc-wrapper">
 				{/* Rotating Signal Ring */}
-				<svg className={`signal-ring transition-opacity duration-1000 ${isActive ? "opacity-100" : "opacity-0"}`} viewBox="0 0 100 100">
+				<svg className={`signal-ring ${isActive ? "active" : ""}`} viewBox="0 0 100 100">
 					<defs>
 						<linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
 							<stop offset="0%" stopColor="#fff" stopOpacity="1" />
@@ -45,15 +45,8 @@ export default function CoreDisc({ isActive, onToggleSession, avatarUrl, figureN
 				</div>
 			</div>
 
-			<div className="mt-8 text-center h-8 flex items-center justify-center">
-				<span
-					className={`
-                    text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700
-                    ${isActive ? "text-amber-500 opacity-100" : "text-white opacity-60 animate-pulse-slow"}
-                `}
-				>
-					{getStatusText()}
-				</span>
+			<div className="mt-8 h-8 flex items-center justify-center">
+				<span className={`disc-status ${isActive ? "active" : "inactive"}`}>{getStatusText()}</span>
 			</div>
 		</div>
 	);

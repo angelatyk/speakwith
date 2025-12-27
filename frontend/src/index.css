@@ -38,11 +38,16 @@ body {
 
 /* Rotating Light Ring */
 .signal-ring {
-  @apply absolute inset-0 w-full h-full pointer-events-none z-20 transition-opacity duration-1000;
+  @apply absolute inset-0 w-full h-full pointer-events-none z-20 transition-opacity duration-1000 opacity-0;
   stroke-dasharray: 70 230;
   filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 12px rgba(245, 158, 11, 0.4));
 }
 
+.signal-ring.active {
+  @apply opacity-100;
+}
+
+/* Disc Glow */
 .disc-glow {
   @apply absolute inset-0 bg-amber-500/30 rounded-full opacity-10 transition-opacity duration-1000;
   filter: blur(80px);
@@ -52,6 +57,7 @@ body {
   @apply opacity-100 animate-pulse;
 }
 
+/* Disc Metallic Shell */
 .disc-metallic {
   @apply relative w-full h-full rounded-full border-[12px] transition-all duration-700 flex items-center justify-center overflow-hidden;
   border-color: #222;
@@ -80,6 +86,7 @@ body {
   animation: spin-slow 20s linear infinite;
 }
 
+/* Disc Center */
 .disc-center {
   @apply absolute inset-0 z-10 flex items-center justify-center bg-black/40;
 }
@@ -92,14 +99,6 @@ body {
   @apply opacity-80 scale-110 grayscale-0;
 }
 
-.disc-placeholder {
-  @apply flex flex-col items-center justify-center;
-}
-
-.disc-placeholder-text {
-  @apply text-[10px] text-zinc-500 font-bold uppercase tracking-widest text-center;
-}
-
 /* Power Button Overlay */
 .disc-power-btn {
   @apply absolute z-30 w-16 h-16 rounded-full flex items-center justify-center bg-black border-4 border-zinc-800 transition-all duration-300 hover:border-amber-500 hover:scale-110 active:scale-95 cursor-pointer;
@@ -108,6 +107,20 @@ body {
 .disc-power-btn.active {
   @apply border-amber-500 bg-amber-500/10;
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+/* Disc Status Text */
+.disc-status {
+  @apply text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700 text-center;
+}
+
+.disc-status.active {
+  @apply text-amber-500 opacity-100;
+}
+
+.disc-status.inactive {
+  @apply text-white opacity-60;
+  animation: pulse-slow 3s ease-in-out infinite;
 }
 
 /*  Transcript Zone  */
@@ -219,8 +232,11 @@ svg circle {
   transform-origin: 50% 50%;
 }
 
+/* Status Text Pulse */
 @keyframes pulse-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(0.98);
   }
