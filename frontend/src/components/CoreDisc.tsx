@@ -9,7 +9,7 @@ type CoreDiscProps = {
 	isUserSpeaking?: boolean;
 };
 
-export default function CoreDisc({ isActive, onToggleSession, avatarUrl, figureName, isModelSpeaking, isUserSpeaking }: CoreDiscProps) {
+function CoreDisc({ isActive, onToggleSession, avatarUrl, figureName, isModelSpeaking, isUserSpeaking }: CoreDiscProps) {
 	const getStatusText = () => {
 		if (!isActive) return "Tap the disc to begin";
 		if (isModelSpeaking) return figureName || "Echo Guide";
@@ -51,3 +51,5 @@ export default function CoreDisc({ isActive, onToggleSession, avatarUrl, figureN
 		</div>
 	);
 }
+
+export default CoreDisc;
