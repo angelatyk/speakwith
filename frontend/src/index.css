@@ -26,6 +26,23 @@ body {
   @apply h-full max-w-4xl mx-auto flex flex-col;
 }
 
+.app-header {
+  @apply mb-10 flex flex-col items-center text-center select-none;
+}
+
+.app-title {
+  @apply text-[26px] font-black uppercase tracking-[0.6em];
+  background: linear-gradient(90deg, #ffffff, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-subtitle {
+  @apply mt-2 text-[12px] uppercase tracking-[0.35em] text-zinc-500;
+}
+
 /* Disc Zone */
 .disc-zone {
   @apply relative flex items-center justify-center min-h-[50vh];

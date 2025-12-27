@@ -41,6 +41,11 @@ function App() {
 		<div className="app-container">
 			<main className="app-main">
 				<div className="app-stage">
+					<header className="app-header">
+						<h1 className="app-title">Echoes</h1>
+						<p className="app-subtitle">Learn history through conversation with those who shaped it</p>
+					</header>
+
 					{/* Disc */}
 					<div className="disc-zone">
 						<DiscSystem isActive={isSessionActive} onToggleSession={handleToggleSession} onSelectFigure={handleSelectFigure} activeFigure={selectedFigure} />

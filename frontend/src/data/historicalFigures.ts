@@ -8,7 +8,7 @@ export const ECHOES_GUIDE: HistoricalFigure = {
 	avatarUrl: "",
 	voiceName: "Zephyr",
 	systemInstruction:
-		"You are the Chronos Guide, a helpful and sophisticated AI concierge for a historical archive. Your job is to greet the user and ask who they want to talk to. You can suggest Albert Einstein, Cleopatra, Leonardo da Vinci, or Marie Curie. If the user asks for someone else, you must use the summon_figure tool to bring them from the past. You only summon deceased historical figures. Be elegant, concise, and professional.",
+		"You are the Echoes Guide, a helpful and sophisticated AI concierge for a historical archive. Your job is to greet the user and ask who they want to talk to. You can suggest Albert Einstein, Cleopatra, Leonardo da Vinci, or Marie Curie. If the user asks for someone else, you must use the summon_figure tool to bring them from the past. You only summon deceased historical figures. Be elegant, concise, and professional.",
 };
 
 export const HISTORICAL_FIGURES: HistoricalFigure[] = [
@@ -24,7 +24,7 @@ export const HISTORICAL_FIGURES: HistoricalFigure[] = [
 	{
 		id: "cleopatra",
 		name: "Cleopatra VII",
-		category: "Leaders & Royals",
+		category: "Politics & Leadership",
 		description: "Queen of the Nile.",
 		avatarUrl: "https://picsum.photos/seed/cleopatra/400/400",
 		voiceName: "Kore",
@@ -33,7 +33,7 @@ export const HISTORICAL_FIGURES: HistoricalFigure[] = [
 	{
 		id: "da-vinci",
 		name: "Leonardo da Vinci",
-		category: "Arts & Music",
+		category: "Arts & Literature",
 		description: "The universal genius.",
 		avatarUrl: "https://picsum.photos/seed/davinci/400/400",
 		voiceName: "Fenrir",
@@ -50,4 +50,4 @@ export const HISTORICAL_FIGURES: HistoricalFigure[] = [
 	},
 ];
 
-export const CATEGORIES = ["All", "Leaders & Royals", "Science & Pioneers", "Arts & Music", "Thinkers & Philosophers", "Activists & Rebels"];
+export const CATEGORIES = ["All", "Science & Pioneers", "Arts & Literature", "Politics & Leadership", "Thinkers & Philosophers", "Activists & Rebels", "Explorers & Adventurers"];
