@@ -281,12 +281,12 @@ h3.transcript-title {
 }
 
 .transcript-entry {
-  @apply flex gap-4 items-start;
+  @apply flex gap-4 items-baseline;
   animation: slide-in-bottom 0.5s ease forwards;
 }
 
 .transcript-speaker {
-  @apply text-[12px] font-black uppercase tracking-widest mt-1.5 shrink-0 w-28 text-right transition-colors duration-200;
+  @apply text-[12px] font-black uppercase tracking-widest shrink-0 w-28 text-right transition-colors duration-200;
 }
 
 .transcript-speaker.user {
