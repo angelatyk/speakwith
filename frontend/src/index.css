@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+:root {
+  /* Core Colors */
+  --bg-main: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-muted: #71717a;
+
+  /* Accent Colors (Amber/Gold) */
+  /* amber-500 */
+  --accent: #f59e0b;
+  /* Metallic Gold */
+  --accent-dark: #d4af37;
+  /* Bright Gold */
+  --accent-light: #f9d976;
+
+  --accent-glow: rgba(245, 158, 11, 0.4);
+  --accent-glow-intense: rgba(245, 158, 11, 0.8);
+
+  /* Surface Colors */
+  --surface-metal: #222222;
+  --surface-dark: #111111;
+  --border-zinc: #27272a;
+}
+
 /* Global & Layout */
 html,
 body,
@@ -8,8 +31,8 @@ body,
 }
 
 body {
-  background-color: #0a0a0a;
-  color: #ffffff;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
   font-family: Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -32,7 +55,7 @@ body {
 
 .app-title {
   @apply text-[26px] font-black uppercase tracking-[0.6em];
-  background: linear-gradient(90deg, #ffffff, #f59e0b);
+  background: linear-gradient(90deg, var(--text-primary), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -88,7 +111,7 @@ body {
 
 .category-item.active .category-indicator {
   @apply bg-amber-500 scale-y-100;
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 /* Right Menu: Historical Figures */
@@ -134,7 +157,7 @@ body {
 .signal-ring {
   @apply absolute inset-0 w-full h-full pointer-events-none z-20 transition-opacity duration-1000 opacity-0;
   stroke-dasharray: 70 230;
-  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 12px rgba(245, 158, 11, 0.4));
+  filter: drop-shadow(0 0 6px var(--accent-glow-intense)) drop-shadow(0 0 12px var(--accent-glow));
 }
 
 .signal-ring.active {
@@ -154,25 +177,25 @@ body {
 /* Disc Metallic Shell */
 .disc-metallic {
   @apply relative w-full h-full rounded-full border-[12px] transition-all duration-700 flex items-center justify-center overflow-hidden;
-  border-color: #222;
+  border-color: var(--surface-metal);
   box-shadow: 0 0 100px rgba(0, 0, 0, 1);
 }
 
 .disc-metallic.active {
   @apply border-amber-500 scale-105;
-  box-shadow: 0 0 120px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 120px var(--accent-glow);
 }
 
 /* Brushed Metal Texture */
 .disc-surface {
   @apply absolute inset-0 opacity-20 transition-all duration-1000;
   background: conic-gradient(from 0deg,
-      #111 0%,
-      #d4af37 20%,
-      #111 40%,
-      #f9d976 60%,
-      #111 80%,
-      #d4af37 100%);
+      var(--surface-dark) 0%,
+      var(--accent-dark) 20%,
+      var(--surface-dark) 40%,
+      var(--accent-light) 60%,
+      var(--surface-dark) 80%,
+      var(--accent-dark) 100%);
 }
 
 .disc-surface.active {
@@ -200,7 +223,7 @@ body {
 
 .disc-power-btn.active {
   @apply border-amber-500 bg-amber-500/10;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 /* Status Text */
