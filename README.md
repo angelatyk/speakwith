@@ -1,5 +1,7 @@
-## Architecture Diagram
 
+##  Architecture Diagram
+
+```
 ┌───────────────────────────────┐
 │         Frontend (Cloud Run)  │
 │  React + Vite + Tailwind      │
@@ -16,8 +18,8 @@
                 │
                 ▼
 ┌───────────────────────────────┐
-│   Vertex AI Agent Engine      │
-│   Multi‑Agent Logic           │
+│     Vertex AI Agent Engine    │
+│       Multi‑Agent Logic       │
 └───────────────┬───────────────┘
                 │
                 ▼
@@ -28,12 +30,14 @@
                 │
                 ▼
 ┌───────────────────────────────┐
-│        Gemini LLM             │
+│          Gemini LLM           │
 │   Grounded Answer Generation  │
 └───────────────┬───────────────┘
                 │
                 ▼
 ┌───────────────────────────────┐
 │        ElevenLabs TTS         │
-│   Voice Synthesis             │
+│        Voice Synthesis        │
 └───────────────────────────────┘
+```
+
