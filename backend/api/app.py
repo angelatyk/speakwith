@@ -4,6 +4,7 @@ from typing import Dict, List
 
 import google.generativeai as genai
 from bson import ObjectId
+from data.historical_figures_questions import HISTORICAL_FIGURE_QUESTIONS
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from mongo import check_connection, get_db
