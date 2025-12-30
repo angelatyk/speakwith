@@ -1,5 +1,4 @@
 import os
-import re
 from typing import Dict, List
 
 import google.generativeai as genai
@@ -26,6 +25,7 @@ HISTORICAL_FIGURES_COLLECTION = "historical_figures"
 
 
 def serialize_doc(doc):
+    """Convert MongoDB ObjectId to string for JSON serialization"""
     if doc and "_id" in doc:
         doc["_id"] = str(doc["_id"])
     return doc
@@ -47,9 +47,6 @@ def init_database():
 
 # Initialize database on startup
 init_database()
-
-# Collection for historical figures
-HISTORICAL_FIGURES_COLLECTION = "historical_figures"
 
 
 def get_or_create_historical_figure(person_name: str) -> Dict:
@@ -107,12 +104,15 @@ def get_or_create_historical_figure(person_name: str) -> Dict:
     return serialize_doc(document)
 
 
+# ---------------- API ROUTES ----------------
+
+
 @app.route("/")
 def index():
     return jsonify(
         {
             "message": "Flask server is running",
-            "database": get_db().name,
+            "database": db.name,
             "status": "connected",
         }
     )
@@ -129,6 +129,7 @@ def health():
         )
 
 
+# Generic item endpoints
 @app.route("/api/items", methods=["GET"])
 def get_items():
     """Get all items from the collection"""
@@ -204,21 +205,8 @@ def get_historical_figure(person_name):
     If person doesn't exist in database, queries Gemini API and saves the results.
     """
     try:
-        if not GEMINI_API_KEY:
-            return (
-                jsonify(
-                    {
-                        "error": "GEMINI_API_KEY is not configured. Please set it as an environment variable."
-                    }
-                ),
-                500,
-            )
-
         figure_data = get_or_create_historical_figure(person_name)
         return jsonify(figure_data), 200
-
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -231,6 +219,9 @@ def list_historical_figures():
         collection.find({}, {"person_name": 1, "person_name_lower": 1, "created_at": 1})
     )
     return jsonify([serialize_doc(fig) for fig in figures])
+
+
+# ---------------- Conversation / Vector Search ----------------
 
 
 def generate_character_context(figure_data: Dict) -> str:
@@ -264,12 +255,9 @@ def generate_character_context(figure_data: Dict) -> str:
         "How did they interact with others (social, reserved, charismatic, etc.)?",
         "What was their sense of humor like, if any?",
     ]
-
-    personality_info = []
-    for q in personality_questions:
-        if q in answers and answers[q]:
-            personality_info.append(answers[q])
-
+    personality_info = [
+        answers[q] for q in personality_questions if q in answers and answers[q]
+    ]
     if personality_info:
         context_sections.append(
             f"Personality: {' '.join(personality_info[:3])}"
@@ -285,12 +273,7 @@ def generate_character_context(figure_data: Dict) -> str:
         "How formal or informal was their speech?",
         "Did they use any specific terminology, jargon, or specialized language?",
     ]
-
-    voice_info = []
-    for q in voice_questions:
-        if q in answers and answers[q]:
-            voice_info.append(answers[q])
-
+    voice_info = [answers[q] for q in voice_questions if q in answers and answers[q]]
     if voice_info:
         context_sections.append(f"Voice and Speech: {' '.join(voice_info[:3])}")
 
@@ -327,9 +310,6 @@ def simulate_conversation(
     Simulate a conversation with a historical figure.
     Uses stored character data to generate in-character responses.
     """
-    if not GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY is not configured")
-
     # Get historical figure data
     figure_data = get_or_create_historical_figure(person_name)
 
@@ -339,10 +319,10 @@ def simulate_conversation(
     # Build conversation history string
     history_text = ""
     if conversation_history:
-        for msg in conversation_history[-5:]:  # Last 5 messages for context
-            role = msg.get("role", "user")
-            content = msg.get("content", "")
-            history_text += f"{role.capitalize()}: {content}\n"
+        for msg in conversation_history[-5:]:
+            history_text += (
+                f"{msg.get('role', 'user').capitalize()}: {msg.get('content', '')}\n"
+            )
 
     # Create the prompt
     prompt = f"""You are {person_name}. Respond as this historical figure would, based on the following information about them:
@@ -382,8 +362,7 @@ def get_vector_db_collection():
         )
 
         try:
-            collection = chroma_client.get_collection(name="historical_figures_qa")
-            return collection
+            return chroma_client.get_collection(name="historical_figures_qa")
         except:
             return None  # Collection doesn't exist yet
     except ImportError:
@@ -423,15 +402,10 @@ def vector_search():
             )
 
         # Build query filter
-        where = {}
-        if person_name:
-            where["person_name"] = person_name
-
+        where = {"person_name": person_name} if person_name else None
         # Query (ChromaDB will use its default embeddings)
         results = collection.query(
-            query_texts=[query_text],
-            n_results=n_results,
-            where=where if where else None,
+            query_texts=[query_text], n_results=n_results, where=where
         )
 
         # Format results
@@ -440,11 +414,7 @@ def vector_search():
             for doc, metadata, distance in zip(
                 results["documents"][0],
                 results["metadatas"][0],
-                (
-                    results["distances"][0]
-                    if "distances" in results
-                    else [0] * len(results["documents"][0])
-                ),
+                results.get("distances", [[0] * len(results["documents"][0])])[0],
             ):
                 formatted_results.append(
                     {
@@ -487,9 +457,6 @@ def conversation(person_name):
     }
     """
     try:
-        if not GEMINI_API_KEY:
-            return jsonify({"error": "GEMINI_API_KEY is not configured."}), 500
-
         data = request.get_json()
         if not data or "message" not in data:
             return jsonify({"error": 'Missing "message" in request body'}), 400
@@ -522,9 +489,6 @@ def conversation(person_name):
             ),
             200,
         )
-
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
