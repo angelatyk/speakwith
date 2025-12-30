@@ -7,6 +7,7 @@ from bson import ObjectId
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from mongo import check_connection, get_db
+from repositories import historical_figures as hf_repo
 
 # Load environment variables from .env file
 load_dotenv()
@@ -465,7 +466,7 @@ def get_or_create_historical_figure(person_name: str) -> Dict:
     person_lower = person_name.lower().strip()
 
     # Check if person exists in database
-    existing = collection.find_one({"person_name_lower": person_lower})
+    existing = hf_repo.find_by_name(person_name)
 
     if existing:
         # If existing record doesn't have elevenlabs summary, generate it
@@ -502,7 +503,7 @@ def get_or_create_historical_figure(person_name: str) -> Dict:
     }
 
     # Insert into database
-    result = collection.insert_one(document)
+    result = hf_repo.insert_figure(document)
     document["_id"] = result.inserted_id
 
     print(f"Saved information about {person_name} to database")
