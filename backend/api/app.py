@@ -157,7 +157,7 @@ def init_database():
         test_collection = db["_init"]
         test_collection.insert_one({"init": True})
         test_collection.delete_one({"init": True})
-        print(f"Database '{DATABASE_NAME}' initialized successfully")
+        print(f"Database '{db.name}' initialized successfully")
     except Exception as e:
         print(f"Warning: Could not initialize database: {e}")
 
@@ -514,7 +514,7 @@ def index():
     return jsonify(
         {
             "message": "Flask server is running",
-            "database": DATABASE_NAME,
+            "database": get_db().name,
             "status": "connected",
         }
     )
@@ -522,12 +522,13 @@ def index():
 
 @app.route("/health")
 def health():
-    try:
-        # Test MongoDB connection
-        client.admin.command("ping")
+    if check_connection():
         return jsonify({"status": "healthy", "database": "connected"}), 200
-    except Exception as e:
-        return jsonify({"status": "unhealthy", "error": str(e)}), 500
+    else:
+        return (
+            jsonify({"status": "unhealthy", "error": "Cannot connect to MongoDB"}),
+            500,
+        )
 
 
 @app.route("/api/items", methods=["GET"])
