@@ -1,3 +1,4 @@
+from app import build_historical_figure_document
 from data.historical_figures_questions import HISTORICAL_FIGURE_QUESTIONS
 from gemini_service import (
     generate_elevenlabs_voice_summary,
@@ -27,16 +28,7 @@ for person_name in PRELOAD_FIGURES:
     answers = gemini_data.get("answers", {})
     elevenlabs_summary = generate_elevenlabs_voice_summary(answers)
 
-    # Structure document same as app.py
-    document = {
-        "person_name": person_name,
-        "person_name_lower": person_name.lower(),
-        "questions": HISTORICAL_FIGURE_QUESTIONS,
-        "answers": answers,
-        "full_response": gemini_data.get("full_response", ""),
-        "elevenlabs": elevenlabs_summary,
-        "created_at": None,  # Will be set by MongoDB
-    }
+    document = build_historical_figure_document(person_name, gemini_data)
 
     result = hf_repo.insert_figure(document)
     print(f"Saved {person_name} with ID {result.inserted_id}")
