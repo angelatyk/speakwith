@@ -1,65 +1,71 @@
-import { useState } from "react";
-import DiscSystem from "./components/DiscSystem";
-import TranscriptHeader from "./components/TranscriptHeader";
-import TranscriptView from "./components/TranscriptView";
-import { ECHOES_GUIDE } from "./data/historicalFigures";
-import type { ChatMessage, HistoricalFigure } from "./types";
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import AgentSearch from './components/AgentSearch';
+import ElevenLabsChat from './components/ElevenLabsChat';
+import Transcript from './components/Transcript';
+import { Agent } from './types';
+import api from './services/api';
 
 function App() {
-	// Mock chat messages
-	const [messages, setMessages] = useState<ChatMessage[]>(() => [
-		{
-			role: "model",
-			text: "Greetings, traveler. Who would you like to speak with today?",
-			timestamp: Date.now(),
-		},
-		{
-			role: "user",
-			text: "I want to talk to Albert Einstein.",
-			timestamp: Date.now(),
-		},
-		{
-			role: "model",
-			name: "Albert Einstein",
-			text: "Ah, relativity! Let us explore the universe together.",
-			timestamp: Date.now(),
-		},
-	]);
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+  const [transcript, setTranscript] = useState<Array<{role: 'user' | 'agent', text: string, timestamp: Date}>>([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [apiKey, setApiKey] = useState<string | null>(null);
 
-	const [isSessionActive, setIsSessionActive] = useState(false);
-	const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure>(ECHOES_GUIDE);
+  // Get API key from backend for useConversation hook
+  useEffect(() => {
+    const fetchApiKey = async () => {
+      try {
+        const key = await api.getElevenLabsApiKey();
+        setApiKey(key);
+      } catch (error) {
+        console.error('Failed to get ElevenLabs API key from backend:', error);
+        // Fallback to environment variable if backend fails
+        const envKey = process.env.REACT_APP_ELEVENLABS_API_KEY;
+        if (envKey) {
+          setApiKey(envKey);
+        }
+      }
+    };
+    
+    fetchApiKey();
+  }, []);
 
-	const handleSelectFigure = (figure: HistoricalFigure) => {
-		setSelectedFigure(figure);
-	};
+  const handleAgentSelect = (agent: Agent) => {
+    setSelectedAgent(agent);
+    setTranscript([]); // Clear transcript when switching agents
+  };
 
-	const handleToggleSession = () => {
-		setIsSessionActive((prev) => !prev);
-	};
+  const handleNewMessage = (role: 'user' | 'agent', text: string) => {
+    setTranscript(prev => [...prev, { role, text, timestamp: new Date() }]);
+  };
 
-	return (
-		<div className="app-container">
-			<main className="app-main">
-				<div className="app-stage">
-					<header className="app-header">
-						<h1 className="app-title">Echoes</h1>
-						<p className="app-subtitle">Learn history through conversation with those who shaped it</p>
-					</header>
-
-					{/* Disc */}
-					<div className="disc-zone">
-						<DiscSystem isActive={isSessionActive} onToggleSession={handleToggleSession} onSelectFigure={handleSelectFigure} activeFigure={selectedFigure} />
-					</div>
-
-					{/* Transcript */}
-					<div className="transcript-zone">
-						<TranscriptHeader isSessionActive={isSessionActive} selectedFigure={selectedFigure} />
-						<TranscriptView messages={messages} />
-					</div>
-				</div>
-			</main>
-		</div>
-	);
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>TalkWith Historical Figures</h1>
+      </header>
+      
+      <div className="main-container">
+        <div className="chat-section">
+          <ElevenLabsChat 
+            agent={selectedAgent}
+            onMessage={handleNewMessage}
+            onConnectionChange={setIsConnected}
+            apiKey={apiKey}
+          />
+          <Transcript messages={transcript} />
+        </div>
+        
+        <div className="search-section">
+          <AgentSearch 
+            onAgentSelect={handleAgentSelect}
+            selectedAgent={selectedAgent}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;
