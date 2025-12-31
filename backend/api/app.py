@@ -5,15 +5,16 @@ from typing import Dict, List
 import google.generativeai as genai
 from bson import ObjectId
 from data.historical_figures_questions import HISTORICAL_FIGURE_QUESTIONS
+from db.mongo import check_connection, get_db
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
-from gemini_service import (
+from repositories import historical_figures as hf_repo
+from services.gemini_service import (
     generate_elevenlabs_voice_summary,
     get_available_gemini_model,
     query_gemini_for_historical_figure,
 )
-from mongo import check_connection, get_db
-from repositories import historical_figures as hf_repo
+from services.historical_figure_builder import build_historical_figure_document
 
 # Load environment variables from .env file
 load_dotenv()
@@ -48,22 +49,6 @@ def init_database():
 
 # Initialize database on startup
 init_database()
-
-
-def build_historical_figure_document(person_name: str, gemini_data: dict) -> dict:
-    """Builds the historical figure document for MongoDB storage."""
-    answers = gemini_data.get("answers", {})
-    elevenlabs_summary = generate_elevenlabs_voice_summary(answers)
-
-    return {
-        "person_name": person_name,
-        "person_name_lower": person_name.lower().strip(),
-        "questions": HISTORICAL_FIGURE_QUESTIONS,
-        "answers": answers,
-        "full_response": gemini_data.get("full_response", ""),
-        "elevenlabs": elevenlabs_summary,
-        "created_at": None,  # Will be set by MongoDB
-    }
 
 
 def get_or_create_historical_figure(person_name: str) -> Dict:

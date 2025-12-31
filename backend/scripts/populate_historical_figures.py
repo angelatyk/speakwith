@@ -1,10 +1,10 @@
-from app import build_historical_figure_document
 from data.historical_figures_questions import HISTORICAL_FIGURE_QUESTIONS
-from gemini_service import (
+from repositories import historical_figures as hf_repo
+from services.gemini_service import (
     generate_elevenlabs_voice_summary,
     query_gemini_for_historical_figure,
 )
-from repositories import historical_figures as hf_repo
+from services.historical_figure_builder import build_historical_figure_document
 
 # List of historical figures to preload
 PRELOAD_FIGURES = [
